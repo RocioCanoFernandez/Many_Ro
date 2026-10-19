@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { createI18n, resolveLocale } from "../lib/i18n";
+import es from "../lib/i18n/es.json";
 import ptBR from "../lib/i18n/pt-BR.json";
 import zhTW from "../lib/i18n/zh-TW.json";
 
@@ -10,6 +11,7 @@ describe("interface translations", () => {
     }
     expect(resolveLocale("zh-TW")).toBe("zh-TW");
     expect(resolveLocale("pt-BR")).toBe("pt-BR");
+    expect(resolveLocale("es")).toBe("es");
   });
 
   it("renders both interface languages from the same keys", () => {
@@ -51,7 +53,7 @@ describe("interface translations", () => {
   it("has complete, plain-text translations with matching interpolation fields", () => {
     const placeholders = (text: string) =>
       [...text.matchAll(/\{(\w+)\}/g)].map((match) => match[1]).sort();
-    for (const catalog of [zhTW, ptBR]) {
+    for (const catalog of [zhTW, ptBR, es]) {
       for (const [source, translation] of Object.entries(catalog)) {
         expect(translation.trim(), source).not.toBe("");
         expect(placeholders(translation), source).toEqual(placeholders(source));
@@ -62,6 +64,25 @@ describe("interface translations", () => {
 
   it("keeps the Brazilian Portuguese catalog on exactly the same keys", () => {
     expect(Object.keys(ptBR).sort()).toEqual(Object.keys(zhTW).sort());
+  });
+
+  it("keeps the Spanish catalog on exactly the same keys", () => {
+    expect(Object.keys(es).sort()).toEqual(Object.keys(zhTW).sort());
+  });
+
+  it("renders Spanish with interpolation and display labels", () => {
+    const { t, label } = createI18n("es");
+    expect(t("Campaigns")).toBe("Campañas");
+    expect(t("Settings")).toBe("Ajustes");
+    expect(t("{count} connected accounts", { count: 2 })).toBe(
+      es["{count} connected accounts"].replace("{count}", "2"),
+    );
+    expect(["SENT", "OWNER", "active", "CUSTOM_STATUS"].map(label)).toEqual([
+      es["Sent"],
+      es["Owner"],
+      es["Active"],
+      "CUSTOM_STATUS",
+    ]);
   });
 
   it("renders Brazilian Portuguese with interpolation and display labels", () => {

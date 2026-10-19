@@ -1,6 +1,6 @@
 # Interface languages
 
-OpenReply defaults to English. Choose **English**, **繁體中文** or **Português (Brasil)** in the dashboard
+OpenReply defaults to English. Choose **English**, **Español**, **繁體中文** or **Português (Brasil)** in the dashboard
 sidebar, under **Settings → Interface language**, or on the sign-in screen.
 The choice is stored in a browser cookie for one year and applies to the
 dashboard, sign-in screens, workspace invitations, and shared campaign reports.
@@ -8,7 +8,7 @@ dashboard, sign-in screens, workspace invitations, and shared campaign reports.
 Changing the interface language does not translate campaign names, keywords,
 outgoing messages, button text, imported CSV data, or Instagram content. An
 unsaved campaign stays in the editor when switching languages. Default outgoing
-message content retains its original values in both languages.
+message content retains its original values in every language.
 
 Public marketing, template playbooks, legal pages, authentication emails, and
 raw API/provider error details remain in English. Those are outside this
@@ -16,8 +16,8 @@ interface translation's scope.
 
 ## Adding or changing copy
 
-- `lib/i18n/zh-TW.json` maps English source copy to Traditional Chinese and
-  `lib/i18n/pt-BR.json` to Brazilian Portuguese. Both catalogs must carry exactly
+- `lib/i18n/es.json`, `lib/i18n/zh-TW.json`, and `lib/i18n/pt-BR.json` map English
+  source copy to Spanish, Traditional Chinese, and Brazilian Portuguese. All catalogs must carry exactly
   the same keys; a missing key fails the typecheck. Use complete sentences with
   named placeholders when word order can vary.
 - Client components use `useI18n()`; server components use `await getI18n()`.
@@ -50,7 +50,7 @@ preference validation, persistence, English fallback, interpolation, and status
 labels. For browser verification:
 
 1. Start with no locale cookie: sign-in should display English.
-2. Switch to Traditional Chinese (and again to Brazilian Portuguese), reload, and navigate to another localized
+2. Switch to Spanish, Traditional Chinese (and again to Brazilian Portuguese), reload, and navigate to another localized
    route: the selected language, labels, and dates should remain consistent.
 3. In the campaign editor, change a message and toggle an option without saving.
    Switch languages: both draft values and the selected post should remain.
